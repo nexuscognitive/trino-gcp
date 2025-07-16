@@ -1,0 +1,77 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}
+  annotations:
+    kubernetes-engine.cloud.google.com/icon: >-
+      data:image/png;base64,{{ .Files.Get "logo.png" | b64enc }}
+    marketplace.cloud.google.com/deploy-info: '{"partner_id": "click-to-deploy-containers", "product_id": "trino", "partner_name": "Nexus Cognitive"}'
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+spec:
+  descriptor:
+    type: Trino
+    version: "{{ .Values.image.tag }}"
+    description: |-
+      Trino is a fast distributed SQL query engine for big data analytics that helps you explore your data universe.
+
+      # Support
+      Google does not offer support for this solution. However, community support is available on https://trino.io/docs/current/
+
+      Additional community support is available on [community forums](https://stackoverflow.com/questions/tagged/trino).
+    maintainers:
+    - name: Nexus Cognitive
+      url: TODO
+    links:
+    - description: 'User Guide: Deploy Trino'
+      url: TODO
+    - description: 'Trino: Installing from scratch'
+      url: https://trino.io/docs/current/installation.html
+    notes: |-
+      TODO
+
+  info:
+  {{ if .Values.enablePublicServiceAndIngress }}
+  - name: Trino dashboard address
+    type: Reference
+    valueFrom:
+      ingressRef:
+        name: {{ .Release.Name }}-ingress
+        protocol: HTTPS
+  - name: Trino login page
+    type: Reference
+    valueFrom:
+      ingressRef:
+        name: {{ .Release.Name }}-ingress
+        path: /login
+        protocol: HTTPS
+  {{ else }}
+  - name: Forward Trino port locally
+    value: kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ .Release.Name }} 8080:8080
+  - name: Trino dashboard address
+    value: http://localhost:8080/
+  - name: Trino login page
+    value: http://localhost:8080/login
+  {{ end }}
+  - name: Application Namespace
+    value: {{ .Release.Namespace }}
+  - name: Login for web console
+    value: {{ .Values.trino.user }}
+  - name: Password for web console
+    type: Reference
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: {{ .Release.Name }}-auth
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+  componentKinds:
+  - group: apps/v1
+    kind: Deployment
+  - group: v1
+    kind: ConfigMap
+  - group: v1
+    kind: Secret
+  - group: v1
+    kind: Service

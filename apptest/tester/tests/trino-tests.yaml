@@ -1,0 +1,11 @@
+actions:
+
+- name: Trino server availability
+  bashTest:
+    script: |-
+      SERVICE="${APP_INSTANCE_NAME}"
+      sleep 20
+      wget -O- http://${APP_INSTANCE_NAME}:8080/v1/info/state
+    expect:
+      stdout:
+        matches: 'ACTIVE'
