@@ -6,14 +6,14 @@ include ../images.Makefile
 CHART_NAME := trino
 APP_ID ?= $(CHART_NAME)
 
-TRACK ?= 438
+TRACK ?= latest
 SERVICE_NAME := services/e6580ff4-fda7-4750-b7a4-aeec14eecc6a.cloudpartnerservices.goog
 
 METRICS_EXPORTER_TAG ?= v0.11.1-gke.1
 
 VERIFY_WAIT_TIMEOUT = 1800
 
-SOURCE_REGISTRY ?= marketplace.gcr.io/google
+SOURCE_REGISTRY ?= us-central1-docker.pkg.dev/festive-vim-466116-c7/trino
 IMAGE_TRINO ?= $(SOURCE_REGISTRY)/trino:$(TRACK)
 IMAGE_PROMETHEUS_TO_SD ?= gke.gcr.io/prometheus-to-sd:$(METRICS_EXPORTER_TAG)
 
