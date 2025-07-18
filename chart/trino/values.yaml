@@ -1,0 +1,10 @@
+image:
+  repository: us-central1-docker.pkg.dev/festive-vim-466116-c7/trino/trino
+  tag: latest
+  pullPolicy: IfNotPresent
+ 
+trino:
+  user: trinoadmin
+  password: trinopass
+ 
+resources: {}
