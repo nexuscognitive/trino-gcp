@@ -30,7 +30,7 @@ RUN cat /tmp/apptest/schema.yaml \
     > /tmp/apptest/schema.yaml.new \
     && mv /tmp/apptest/schema.yaml.new /tmp/apptest/schema.yaml
 
-FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm:$MARKETPLACE_TOOLS_TAG
+FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm:latest
 
 ARG CHART_NAME
 
