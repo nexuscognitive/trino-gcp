@@ -25,7 +25,7 @@ x-google-marketplace:
           type: REPO_WITH_REGISTRY
         image.tag:
           type: TAG
-    prometheus-to-sd:
+    ubbagent:
       properties:
         metrics.image:
           type: FULL
@@ -39,10 +39,14 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
+  reportingSecret:
+    type: string
+    x-google-marketplace:
+      type: REPORTING_SECRET
   trino.user:
     type: string
     title: Trino username
-    description: Username for Trino web console
+    description: Username for Trino 
     default: "admin"
   trino.password:
     type: string
@@ -52,16 +56,6 @@ properties:
         length: 12
         includeSymbols: False
         base64: False
-  enablePublicServiceAndIngress:
-    type: boolean
-    title: Enable public IP access
-    description: Set the Trino Service type to NodePort and enable Ingress
-    default: false
-  metrics.exporter.enabled:
-    type: boolean
-    title: Enable Stackdriver Metrics Exporter
-    description: Your GCP project should have Stackdriver enabled. For non-GCP clusters, export of metrics to Stackdriver is not supported yet
-    default: false
   certificate:
     type: string
     x-google-marketplace:
@@ -74,6 +68,5 @@ properties:
 required:
 - name
 - namespace
+- reportingSecret
 - trino.user
-- enablePublicServiceAndIngress
-- metrics.exporter.enabled

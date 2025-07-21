@@ -27,37 +27,16 @@ spec:
       url: TODO
     - description: 'Trino: Installing from scratch'
       url: https://trino.io/docs/current/installation.html
-    notes: |-
-      TODO
+
 
   info:
-  {{ if .Values.enablePublicServiceAndIngress }}
-  - name: Trino dashboard address
-    type: Reference
-    valueFrom:
-      ingressRef:
-        name: {{ .Release.Name }}-ingress
-        protocol: HTTPS
-  - name: Trino login page
-    type: Reference
-    valueFrom:
-      ingressRef:
-        name: {{ .Release.Name }}-ingress
-        path: /login
-        protocol: HTTPS
-  {{ else }}
   - name: Forward Trino port locally
     value: kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ .Release.Name }} 8080:8080
-  - name: Trino dashboard address
-    value: http://localhost:8080/
-  - name: Trino login page
-    value: http://localhost:8080/login
-  {{ end }}
   - name: Application Namespace
     value: {{ .Release.Namespace }}
   - name: Login for web console
     value: {{ .Values.trino.user }}
-  - name: Password for web console
+  - name: Password
     type: Reference
     valueFrom:
       secretKeyRef:

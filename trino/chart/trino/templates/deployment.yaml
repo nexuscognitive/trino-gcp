@@ -27,7 +27,39 @@ spec:
           volumeMounts:
             - name: etc-volume
               mountPath: /etc/trino
+        - name: ubb-agent
+          image: "{{ .Values.metrics.repository }}:{{ .Values.metrics.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AGENT_CONFIG_FILE
+              value: "/etc/ubb-agent/config.yaml"
+            - name: AGENT_STATE_DIR
+              value: "/opt/persistent/ubb-agent"
+            - name: AGENT_LOCAL_PORT
+              value: "4567"
+            - name: AGENT_ENCODED_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.reportingSecret }}
+                  key: reporting-key
+            - name: AGENT_CONSUMER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.reportingSecret }}
+                  key: consumer-id
+            - name: SERVICE_NAME
+              value: "{{ .Values.serviceName }}"
+          volumeMounts:
+            - name: ubb-agent-config
+              mountPath: /etc/ubb-agent
+            - name: ubb-agent-state
+              mountPath: /opt/persistent
       volumes:
         - name: etc-volume
           configMap:
             name: {{ .Release.Name }}-config
+        - name: ubb-agent-config
+          configMap:
+            name: {{ .Release.Name }}-ubb-config
+        - name: ubb-agent-state
+          emptyDir: {}

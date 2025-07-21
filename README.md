@@ -21,8 +21,7 @@ This deployment includes:
 - ConfigMap for Trino configuration
 - Secret for authentication credentials
 - Service for internal communication
-- Optional Ingress for external access
-- Optional Prometheus metrics exporter
+
 
 ## Installation
 

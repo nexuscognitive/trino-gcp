@@ -1,7 +1,21 @@
 image:
-  repository: us-central1-docker.pkg.dev/festive-vim-466116-c7/trino/trino
+  repository: gcr.io/festive-vim-466116-c7/trino
   tag: latest
   pullPolicy: IfNotPresent
+
+# UBB (Usage-based Billing) Agent configuration
+metrics:
+  repository: gcr.io/cloud-marketplace-tools/metering/ubbagent
+  tag: latest
+  pullPolicy: IfNotPresent
+  
+# Google Cloud Marketplace reporting secret
+# This is provided by Google Cloud Marketplace at deployment time
+reportingSecret: ""
+
+# Service name for billing integration
+# This will be provided by Google Cloud Marketplace
+serviceName: ""
  
 trino:
   user: trinoadmin

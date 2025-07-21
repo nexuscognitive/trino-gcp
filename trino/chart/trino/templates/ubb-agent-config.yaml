@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-ubb-config
+  labels:
+    app: {{ .Release.Name }}
+data:
+  config.yaml: |
+    identities:
+    - name: gcp
+      gcp:
+        encodedServiceAccountKey: ${AGENT_ENCODED_KEY}
+    metrics:
+    - name: instance-time
+      type: int
+      endpoints:
+      - name: on_disk
+      aggregation:
+        bufferSeconds: 60
+    endpoints:
+    - name: on_disk
+      disk:
+        reportDir: /opt/persistent/ubb-agent-report
+        expireSeconds: 3600
+    sources:
+    - name: instance-heartbeat
+      heartbeat:
+        metric: instance-time
+        intervalSeconds: 60
+        value:
+          int64Value: 1

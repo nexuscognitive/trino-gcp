@@ -10,7 +10,6 @@ spec:
   activeDeadlineSeconds: 1200
   template:
     spec:
-      serviceAccountName: {{ .Release.Name }}-sa
       containers:
       - name: tester
         image: "{{ .Values.testerImage }}"
