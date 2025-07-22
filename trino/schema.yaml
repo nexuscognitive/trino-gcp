@@ -45,7 +45,7 @@ properties:
       type: REPORTING_SECRET
   trino.user:
     type: string
-    title: Trino username
+    title: Federated Queries username
     description: Username for Trino 
     default: "admin"
   trino.password:

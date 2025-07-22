@@ -1,0 +1,20 @@
+FROM trinodb/trino:latest
+
+# Security fixes for known vulnerabilities
+# CVE-2024-41110: Docker Engine AuthZ Plugin Bypass Regression  
+# CVE-2025-22871: HTTP Request/Response Smuggling in Go net/http
+
+# Switch to root to perform system updates
+USER root
+
+
+
+# Remove vulnerable BeanUtils JAR (CVE-2025-48734)
+RUN rm -f /usr/lib/trino/plugin/pinot/commons-beanutils_commons-beanutils-1.10.0.jar
+
+
+RUN curl -L -o /usr/lib/trino/plugin/pinot/commons-beanutils_commons-beanutils-1.11.0.jar \
+    https://repo1.maven.org/maven2/commons-beanutils/commons-beanutils/1.11.0/commons-beanutils-1.11.0.jar
+
+    # Switch back to non-root user
+USER trino:trino

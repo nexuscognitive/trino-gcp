@@ -10,10 +10,10 @@ metadata:
     app.kubernetes.io/name: "{{ .Release.Name }}"
 spec:
   descriptor:
-    type: Trino
+    type: Federated Queries
     version: "{{ .Values.image.tag }}"
     description: |-
-      Trino is a fast distributed SQL query engine for big data analytics that helps you explore your data universe.
+      Federated Queries is a fast distributed SQL query engine for big data analytics that helps you explore your data universe.
 
       # Support
       Google does not offer support for this solution. However, community support is available on https://trino.io/docs/current/
@@ -23,18 +23,18 @@ spec:
     - name: Nexus Cognitive
       url: TODO
     links:
-    - description: 'User Guide: Deploy Trino'
-      url: TODO
+    - description: 'User Guide: Deploy Federated Queries'
+      url: https://trino.io/docs/current/installation/deployment.html
     - description: 'Trino: Installing from scratch'
       url: https://trino.io/docs/current/installation.html
 
 
   info:
-  - name: Forward Trino port locally
+  - name: Forward Federated Queries port locally
     value: kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ .Release.Name }} 8080:8080
   - name: Application Namespace
     value: {{ .Release.Namespace }}
-  - name: Login for web console
+  - name: Login 
     value: {{ .Values.trino.user }}
   - name: Password
     type: Reference
